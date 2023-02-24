@@ -1,0 +1,66 @@
+services:
+
+
+  order:
+    build:
+      context: ./order-service
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://orderdb:5432/folex"
+      SPRING_DATASOURCE_USERNAME: order
+      SPRING_DATASOURCE_PASSWORD: order
+    ports:
+      - "9080:8080"
+
+  factory:
+    build:
+      context: ./factory
+
+  workflow:
+    build:
+      context: ./workflow
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://camundadb:5432/folex"
+      SPRING_DATASOURCE_USERNAME: order
+      SPRING_DATASOURCE_PASSWORD: order
+      CAMUNDA_BPM_ADMIN_USER_ID: folex
+      CAMUNDA_BPM_ADMIN_USER_PASSWORD: folex
+      SPRING_RABBITMQ_HOST: rabbit
+      SPRING_RABBITMQ_USERNAME: folex
+      SPRING_RABBITMQ_PASSWORD: folex
+      FOLEX_API_ORDER: "http://order:8080"
+      FOLEX_API_FACTORY: "http://factory:8080"
+
+    command:
+      - "/wait-for-it.sh"
+      - "camundadb:5432"
+      - "--"
+      - "/run.sh"
+    ports:
+      - "9081:8080"
+
+
+  orderdb:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: order
+      POSTGRES_DB: folex
+    ports:
+      - "5432:5432"
+
+  camundadb:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: order
+      POSTGRES_DB: folex
+    ports:
+      - "5433:5432"
+
+  rabbit:
+    image: rabbitmq:3.11-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: folex
+      RABBITMQ_DEFAULT_PASS: folex
+    ports:
+      - "9082:15672"
