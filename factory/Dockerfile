@@ -6,8 +6,10 @@ COPY src ./src
 
 RUN mvn clean package
 
-FROM openjdk:25
+FROM openjdk:25-bookworm
 
 COPY /target/factory-0.0.1-SNAPSHOT.jar .
+
+EXPOSE 8080
 
 CMD ["java", "-jar", "factory-0.0.1-SNAPSHOT.jar", "--port", "8080"]
