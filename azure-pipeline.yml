@@ -11,19 +11,6 @@ jobs:
   - job: Test
     displayName: Run All Tests
     steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: 22.x
-      displayName: Install Node.js
-
-    - script: |
-        npm --prefix ./wedding-watches install
-      displayName: Install dependencies
-
-    # - script: |
-    #     npm --prefix ./wedding-watches test
-    #   displayName: Run npm tests
-
     - script: |
         curl -o $(Build.ArtifactStagingDirectory)/jdk-23_linux-x64_bin.tar.gz https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz
       displayName: Download JDK 23
