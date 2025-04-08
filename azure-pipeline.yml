@@ -1,0 +1,107 @@
+trigger:
+- master
+
+pool:
+  name: sigma
+
+variables:
+- group: folex
+
+jobs:
+  - job: Test
+    displayName: Run All Tests
+    steps:
+    - script: |
+        curl -o $(Build.ArtifactStagingDirectory)/jdk-23_linux-x64_bin.tar.gz https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz
+      displayName: Download JDK 23
+
+    - task: JavaToolInstaller@1
+      inputs:
+        versionSpec: 23
+        jdkArchitectureOption: x64
+        jdkSourceOption: LocalDirectory
+        jdkFile: $(Build.ArtifactStagingDirectory)/jdk-23_linux-x64_bin.tar.gz
+        jdkDestinationDirectory: $(Agent.ToolsDirectory)/jdk
+      displayName: Install JDK 23
+
+    - task: Cache@2
+      inputs:
+        key: jdk | $(Agent.OS) | 23
+        restoreKeys: |
+          jdk | $(Agent.OS) | 23
+          jdk
+        path: $(Agent.ToolsDirectory)/jdk
+      displayName: Cache JDK
+
+    - script: |
+          sudo apt-get install -y maven
+      displayName: Install Maven
+
+    - task: Maven@4
+      inputs:
+        mavenPomFile: pom.xml
+        mavenOptions: -Xmx3072m
+        javaHomeOption: JDKVersion
+        jdkVersionOption: default
+        jdkArchitectureOption: x64
+        publishJUnitResults: true
+        testResultsFiles: '**/TEST-*.xml'
+        goals: clean package
+      displayName: Maven Clean Package
+
+  - job: Build_And_Deploy
+    displayName: Build and Deploy Docker Image
+    condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+    dependsOn: Test
+
+    steps:
+    - script: |
+        sudo apt-get update
+        sudo apt-get install ca-certificates curl
+        sudo install -m 0755 -d /etc/apt/keyrings
+        sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+        echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+          $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+          sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt-get update
+      displayName: Set up Docker apt repository
+
+    - script: |
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      displayName: Install Docker
+
+    - script: sudo chmod 666 /var/run/docker.sock
+      displayName: Fix docker permissions
+
+    - task: Docker@2
+      displayName: Login
+      inputs:
+        command: login
+        containerRegistry: $(DOCKER_SERVICE_CONNECTION)
+
+    - task: Docker@2
+      inputs:
+        command: buildAndPush
+        repository: $(WORKFLOW_IMAGE_REPO)
+        dockerfile: ./workflow/Dockerfile
+        tags: $(Build.BuildId),latest
+      displayName: Build & Push Workflow Docker Image
+
+    - task: Docker@2
+      inputs:
+        command: buildAndPush
+        repository: $(WEDDING_WATCHES_IMAGE_REPO)
+        dockerfile: ./wedding-watches/Dockerfile
+        tags: $(Build.BuildId),latest
+      displayName: Build & Push Wedding Watches Docker Image
+
+    - task: Docker@2
+      inputs:
+        command: buildAndPush
+        repository: $(FACTORY_IMAGE_REPO)
+        dockerfile: ./factory/Dockerfile
+        tags: $(Build.BuildId),latest
+      displayName: Build & Push Factory Docker Image
