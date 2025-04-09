@@ -10,3 +10,6 @@ variable "storage_account" {
 variable "storage_container" {
   type = string
 }
+variable "container_registry" {
+  type = string
+}
