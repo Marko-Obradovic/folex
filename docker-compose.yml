@@ -55,7 +55,7 @@ services:
       POSTGRES_PASSWORD: order
       POSTGRES_DB: folex
     ports:
-      - "5444:5432"
+      - "5433:5432"
 
   rabbit:
     image: rabbitmq:3.11-management-alpine
