@@ -1,5 +1,7 @@
 trigger:
-- master
+  branches:
+    include:
+      - "*"
 
 pool:
   name: sigma
@@ -105,3 +107,11 @@ jobs:
         dockerfile: ./factory/Dockerfile
         tags: $(Build.BuildId),latest
       displayName: Build & Push Factory Docker Image
+
+    - task: Docker@2
+      inputs:
+        command: buildAndPush
+        repository: $(ORDER_SERVICE_IMAGE_REPO)
+        dockerfile: ./factory/Dockerfile
+        tags: $(Build.BuildId),latest
+      displayName: Build & Push Order Service Docker Image
