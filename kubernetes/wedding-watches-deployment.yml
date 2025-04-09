@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wedding-watches
+  labels:
+    app: wedding-watches
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: wedding-watches
+  
+  template:
+    metadata:
+      labels:
+        app: wedding-watches
+    spec:
+      containers:
+      - name: wedding-watches
+        image: folexcontainerregistry.azurecr.io/folex/wedding-watches:latest
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: wedding-watches-sc
