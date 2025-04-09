@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workflow-config
+  namespace: folex-dev
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://camundadb:5432/folex"
+  SPRING_DATASOURCE_USERNAME: "order"
+  SPRING_DATASOURCE_PASSWORD: "order"
+  CAMUNDA_BPM_ADMIN_USER_ID: "folex"
+  CAMUNDA_BPM_ADMIN_USER_PASSWORD: "folex"
+  SPRING_RABBITMQ_HOST: "rabbit"
+  SPRING_RABBITMQ_USERNAME: "folex"
+  SPRING_RABBITMQ_PASSWORD: "folex"
+  FOLEX_API_ORDER: "http://order:8080"
+  FOLEX_API_FACTORY: "http://factory:8080"
