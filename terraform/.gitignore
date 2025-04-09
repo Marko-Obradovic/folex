@@ -1,0 +1,11 @@
+# env
+.env
+
+# all terraform files
+*.lock.hcl
+*.tfstate*
+*.tfvars
+*.terraform*
+
+# configmaps
+*conf*map*
