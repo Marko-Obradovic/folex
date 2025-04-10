@@ -24,7 +24,7 @@ public class CreateWatchOrderDelegate implements JavaDelegate {
         final CreateOrderRequest request = new CreateOrderRequest("RECEIVED", source, description);
         final CreateOrderResponse response = orderApi.createOrder(request);
 
-        delegateExecution.setVariable(ProcessVariables.ID, response.getId());
+        delegateExecution.setVariable(ProcessVariables.ID, response.getId().toString());
         delegateExecution.setVariable(ProcessVariables.STATUS, response.getStatus());
 
     }

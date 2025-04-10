@@ -24,3 +24,8 @@ spec:
         envFrom:
           - secretRef:
               name: order-service-sc
+        resources:
+          limits:
+            cpu: 100m
+          requests:
+            cpu: 50m
