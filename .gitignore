@@ -3,4 +3,4 @@ target
 node_modules
 .next
 .idea
-workflow-secrets.yml
+*secrets.yml
