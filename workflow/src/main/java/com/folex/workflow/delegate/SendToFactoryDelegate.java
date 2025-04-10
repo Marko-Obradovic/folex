@@ -19,7 +19,7 @@ public class SendToFactoryDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        UUID orderId = (UUID) delegateExecution.getVariable(ProcessVariables.ID);
+        UUID orderId = UUID.fromString((String) delegateExecution.getVariable(ProcessVariables.ID));
         NewFactoryOrder order = new NewFactoryOrder(orderId);
 
         factoryApi.addOrder(order);
