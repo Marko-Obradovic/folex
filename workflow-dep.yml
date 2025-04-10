@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workflow
+  namespace: folex-dev
+  labels:
+    app: workflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workflow
+  template:
+    metadata:
+      labels:
+        app: workflow
+    spec:
+      containers:
+      - name: workflow-service
+        image: training16.azurecr.io/folex-workflow
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        envFrom:
+        - secretRef:
+            name: workflow-secrets
+        ports:
+        - containerPort: 8080
