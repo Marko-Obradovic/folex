@@ -1,28 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq
+  name: rabbit
   namespace: folex-dev
   labels:
-    app: rabbitmq
+    app: rabbit
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rabbitmq
+      app: rabbit
   template:
     metadata:
       labels:
-        app: rabbitmq
+        app: rabbit
     spec:
       containers:
-      - name: rabbitmq
+      - name: rabbit
         image: rabbitmq:3.11-management-alpine
-        env:
-        - name: RABBITMQ_DEFAULT_USER
-          value: "folex"
-        - name: RABBITMQ_DEFAULT_PASS
-          value: "folex"
+        envFrom:
+          - secretRef:
+              name: rabbit-secrets
         ports:
         - containerPort: 5672
           name: amqp

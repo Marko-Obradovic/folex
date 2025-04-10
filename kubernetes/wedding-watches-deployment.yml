@@ -8,9 +8,9 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels: 
+    matchLabels:
       app: wedding-watches
-  
+
   template:
     metadata:
       labels:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: wedding-watches
-        image: folexcontainerregistry.azurecr.io/folex/wedding-watches:latest
+        image: training16.azurecr.io/folex/wedding-watches:latest
         ports:
         - containerPort: 443
         - containerPort: 80
