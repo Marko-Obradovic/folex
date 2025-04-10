@@ -1,4 +1,4 @@
-FROM maven:3.9
+FROM maven:3.9 as build
 
 COPY pom.xml .
 
@@ -8,7 +8,7 @@ RUN mvn clean package
 
 FROM openjdk:25-bookworm
 
-COPY /target/order-service-0.0.1-SNAPSHOT.jar .
+COPY --from=build /target/order-service-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 8080
 
