@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: factory
+  labels:
+    app: factory
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: factory
+
+  template:
+    metadata:
+      labels:
+        app: factory
+    spec:
+      containers:
+      - name: factory
+        image: training16.azurecr.io/factory:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+          - secretRef:
+              name: factory-sc
