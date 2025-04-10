@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: factory
-        image: training16.azurecr.io/factory:latest
+        image: training16.azurecr.io/folex/factory:latest
         ports:
         - containerPort: 8080
         envFrom:
