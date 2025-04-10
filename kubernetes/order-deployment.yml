@@ -18,12 +18,12 @@ spec:
     spec:
       containers:
       - name: order-service
-        image: training16.azurecr.io/order-service:latest
+        image: training16.azurecr.io/folex/order-service:latest
         ports:
         - containerPort: 8080
         envFrom:
           - secretRef:
-              name: order-service-sc
+              name: sc-orderservicesc-secret
         resources:
           limits:
             cpu: 100m
