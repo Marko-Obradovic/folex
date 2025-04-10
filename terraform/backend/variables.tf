@@ -13,3 +13,18 @@ variable "storage_container" {
 variable "container_registry" {
   type = string
 }
+variable "object_id_1" {
+  type = string
+}
+variable "object_id_2" {
+  type = string
+}
+variable "object_id_3" {
+  type = string
+}
+variable "object_id_4" {
+  type = string
+}
+variable "object_ids" {
+  type = list(string)
+}
