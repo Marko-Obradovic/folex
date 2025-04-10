@@ -30,11 +30,6 @@ services:
       FOLEX_API_ORDER: "http://order:8080"
       FOLEX_API_FACTORY: "http://factory:8080"
 
-    command:
-      - "/wait-for-it.sh"
-      - "camundadb:5432"
-      - "--"
-      - "/run.sh"
     ports:
       - "9081:8080"
 
