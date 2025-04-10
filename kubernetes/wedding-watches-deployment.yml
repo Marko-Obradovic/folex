@@ -24,5 +24,5 @@ spec:
         - containerPort: 80
         - containerPort: 3000
         envFrom:
-        - configMapRef:
-            name: wedding-watches-config
+        - secretRef:
+            name: wedding-watches-secret
