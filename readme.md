@@ -1,6 +1,5 @@
 # Folex
 
-
 The Folex watch company has approached us to deploy their new white-label watch services to the cloud. Folex are currently the fifth largest watchmaker in the world, and they offer watches under a number of different brands as well as custom branding. Their custom branding business allows companies to order customised watches for special occasions, corporate gifts and marketing campaigns that will be customised to their customer's needs.
 
 At the moment, all orders are sent from their brand shops or their customers via email. Most orders will be at least 100 watches so they get sent in with an excel spreadsheet. Then someone has to check each row and instruct the factory to begin production. It is time-consuming and error prone. Last year, over 300 watches were rejected due to mistakes in instructing the factory.
@@ -19,7 +18,7 @@ The components are as follows:
 
 ### Wedding Watches
 
-The Wedding Watches website is another internal brand for Folex. They make sets of watches that are normally given as gifts to members of the wedding party at a wedding. Batches are normally 4-10 watches with bespoke engraving. This application is written in Next.js.
+The Wedding Watches website is another internal brand for Folex. They make sets of watches that are normally given as gifts to members of the wedding party at a wedding. Batches are normally 4-10 watches with bespoke engraving. This application is written in svelte.
 
 ### Queue
 
