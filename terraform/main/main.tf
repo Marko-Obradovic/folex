@@ -42,7 +42,7 @@ resource "azurerm_postgresql_flexible_server_database" "order_db" {
   charset             = "UTF8"
 
   lifecycle {
-    prevent_destroy = false
+    prevent_destroy = true
   }
 }
 
@@ -53,7 +53,7 @@ resource "azurerm_postgresql_flexible_server_database" "camunda_db" {
   charset             = "UTF8"
 
   lifecycle {
-    prevent_destroy = false
+    prevent_destroy = true
   }
 }
 
