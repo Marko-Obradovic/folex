@@ -1,0 +1,82 @@
+trigger:
+  branches:
+    exclude:
+      - '*'
+
+resources:
+ pipelines:
+   - pipeline: folex-pipeline
+     source: folex-pipeline
+     trigger:
+       branches:
+         include:
+           - master
+
+jobs:
+- job: Terraform
+  condition: succeeded()
+  pool:
+    name: sigma
+
+  variables:
+  - group: folex
+
+  steps:
+    - script: |
+        wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+        sudo apt update && sudo apt install terraform
+      displayName: Install Terraform
+
+    - script: |
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      displayName: 'Install Azure CLI'
+
+    - task: AzureCLI@2
+      inputs:
+        connectedServiceNameARM: folex-service-connection
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          terraform -chdir=terraform/main init \
+            -backend-config="subscription_id=$(ARM_SUBSCRIPTION_ID)" \
+            -backend-config="resource_group_name=$(ARM_RESOURCE_GROUP)" \
+            -backend-config="storage_account_name=$(ARM_STORAGE_ACCOUNT)" \
+            -backend-config="container_name=$(ARM_CONTAINER_NAME)" \
+            -backend-config="key=$(ARM_STATE_KEY)"
+          if terraform workspace list | sed 's/^[* ]*//' | grep -Fxq "dev"; then
+            echo "Selecting existing workspace: dev"
+            terraform workspace select "dev"
+          else
+            echo "Creating new workspace: dev"
+            terraform workspace new "dev"
+          fi
+
+      displayName: Terraform Init
+
+    - task: AzureCLI@2
+      inputs:
+        connectedServiceNameARM: folex-service-connection
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          terraform -chdir=terraform/main plan \
+            -var "subscription_id=$(ARM_SUBSCRIPTION_ID)" \
+            -var "resource_group=$(ARM_RESOURCE_GROUP)" \
+            -var "database_username=$(database_username)" \
+            -var "database_password=$(database_password)"
+      displayName: Terraform Plan
+
+    - task: AzureCLI@2
+      inputs:
+        connectedServiceNameARM: folex-service-connection
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          terraform -chdir=terraform/main apply \
+          -auto-approve \
+          -var "subscription_id=$(ARM_SUBSCRIPTION_ID)" \
+          -var "resource_group=$(ARM_RESOURCE_GROUP)" \
+          -var "database_username=$(database_username)" \
+          -var "database_password=$(database_password)"
+      displayName: Terraform Apply
