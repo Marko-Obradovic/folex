@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = ">= 4.22.0"
     }
+    azuredevops = {
+      source  = "microsoft/azuredevops"
+      version = ">= 0.1.0"
+    }
   }
 }
 
@@ -11,6 +15,11 @@ provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
 }
+
+# provider "azuredevops" {
+#   org_service_url       = "https://dev.azure.com/${var.org_name}"
+#   personal_access_token = var.devops_pat
+# }
 
 data "azurerm_resource_group" "tf_resource_group" {
   name     = var.resource_group
