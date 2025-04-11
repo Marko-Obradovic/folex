@@ -28,3 +28,12 @@ variable "object_id_4" {
 variable "object_ids" {
   type = list(string)
 }
+variable "devops_pat" {
+  type = string
+}
+variable "project_name" {
+  type = string
+}
+variable "org_name" {
+  type = string
+}
