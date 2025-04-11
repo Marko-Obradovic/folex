@@ -51,8 +51,7 @@ jobs:
             echo "Creating new workspace: dev"
             terraform workspace new "dev"
           fi
-
-      displayName: Terraform Init
+      displayName: Terraform Init & Select Workspace
 
     - task: AzureCLI@2
       inputs:
@@ -60,12 +59,13 @@ jobs:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+          terraform -chdir=terraform/main workspace select "dev" && \
           terraform -chdir=terraform/main plan \
             -var "subscription_id=$(ARM_SUBSCRIPTION_ID)" \
             -var "resource_group=$(ARM_RESOURCE_GROUP)" \
             -var "database_username=$(database_username)" \
             -var "database_password=$(database_password)"
-      displayName: Terraform Plan
+      displayName: Terraform Plan in Dev Workspace
 
     - task: AzureCLI@2
       inputs:
@@ -73,10 +73,11 @@ jobs:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+          terraform -chdir=terraform/main workspace select "dev" && \
           terraform -chdir=terraform/main apply \
-          -auto-approve \
-          -var "subscription_id=$(ARM_SUBSCRIPTION_ID)" \
-          -var "resource_group=$(ARM_RESOURCE_GROUP)" \
-          -var "database_username=$(database_username)" \
-          -var "database_password=$(database_password)"
-      displayName: Terraform Apply
+            -auto-approve \
+            -var "subscription_id=$(ARM_SUBSCRIPTION_ID)" \
+            -var "resource_group=$(ARM_RESOURCE_GROUP)" \
+            -var "database_username=$(database_username)" \
+            -var "database_password=$(database_password)"
+      displayName: Terraform Apply in Dev Workspace
