@@ -43,13 +43,13 @@ jobs:
             -backend-config="resource_group_name=$(ARM_RESOURCE_GROUP)" \
             -backend-config="storage_account_name=$(ARM_STORAGE_ACCOUNT)" \
             -backend-config="container_name=$(ARM_CONTAINER_NAME)" \
-            -backend-config="key=$(ARM_STATE_KEY)" && \
-          if terraform workspace list | sed 's/^[* ]*//' | grep -Fxq "dev"; then \
-            echo "Selecting existing workspace: dev"; \
-            terraform workspace select "dev"; \
-          else \
-            echo "Creating new workspace: dev"; \
-            terraform workspace new "dev"; \
+            -backend-config="key=$(ARM_STATE_KEY)"
+          if terraform workspace list | sed 's/^[* ]*//' | grep -Fxq "dev"; then
+            echo "Selecting existing workspace: dev"
+            terraform workspace select "dev"
+          else
+            echo "Creating new workspace: dev"
+            terraform workspace new "dev"
           fi
       displayName: Terraform Init & Select Workspace
 
