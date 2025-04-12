@@ -53,4 +53,9 @@ public class WatchOrder {
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
+
+    @Override
+    public String toString() {
+        return "WatchOrder{" + "id=" + id + ", status=" + status + ", source='" + source + '\'' + ", orderDate=" + orderDate + ", lastUpdate=" + lastUpdate + ", description='" + description + '\'' + '}';
+    }
 }
