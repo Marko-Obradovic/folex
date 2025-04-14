@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_14oj89m" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.8.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_14oj89m" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.34.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
   <bpmn:process id="FolexWatchOrder" name="FolexWatchOrder" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_1cl3b7y" sourceRef="StartEvent_1" targetRef="Activity_0qnn6g0" />
     <bpmn:sequenceFlow id="Flow_1x5xw4u" sourceRef="Activity_0qnn6g0" targetRef="Activity_18q72ni" />
@@ -21,7 +21,7 @@
       <bpmn:incoming>Flow_1chwnhq</bpmn:incoming>
       <bpmn:outgoing>Flow_1q3e97d</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1p8cy8n">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT20S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_1chwnhq" sourceRef="Gateway_0xsn7pd" targetRef="Event_1hik2wt" />
@@ -134,14 +134,6 @@
       <bpmndi:BPMNShape id="Activity_0yp4x6g_di" bpmnElement="Activity_18q72ni">
         <dc:Bounds x="480" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1hhtbv7_di" bpmnElement="TextAnnotation_1hhtbv7">
-        <dc:Bounds x="190" y="80" width="100" height="30" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_11j15ji_di" bpmnElement="TextAnnotation_11j15ji">
-        <dc:Bounds x="1080" y="80" width="100" height="30" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0yei7j0_di" bpmnElement="Activity_10kjwog">
         <dc:Bounds x="680" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -153,6 +145,14 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0t4cyft_di" bpmnElement="StartEvent_1">
         <dc:Bounds x="152" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1hhtbv7_di" bpmnElement="TextAnnotation_1hhtbv7">
+        <dc:Bounds x="190" y="80" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_11j15ji_di" bpmnElement="TextAnnotation_11j15ji">
+        <dc:Bounds x="1080" y="80" width="100" height="30" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1oq1f49_di" bpmnElement="Event_1dz5mrf">
         <dc:Bounds x="342" y="202" width="36" height="36" />
