@@ -1,0 +1,58 @@
+--- Watch Type Chart (workflow)
+ContainerLogV2
+| where PodNamespace == "folex-dev"
+| where ContainerName == "workflow-service"
+| where LogMessage contains "OrderListener" and LogMessage contains "input"
+| extend LogMessageStr = tostring(LogMessage)
+| extend WatchType = extract(@"description=(.*?)\,", 1, LogMessageStr)
+| summarize arg_min(TimeGenerated, LogMessage, WatchType, ContainerName, LogSource) by bin(TimeGenerated, 1m)
+| project TimeGenerated, WatchType
+| summarize count(WatchType) by WatchType
+
+--- Order Source Chart (workflow)
+ContainerLogV2
+| where PodNamespace == "folex-dev"
+| where ContainerName == "workflow-service"
+| where LogMessage contains "OrderListener" and LogMessage contains "input"
+| extend LogMessageStr = tostring(LogMessage)
+| extend Source = extract(@"source=(.*?)\}", 1, LogMessageStr)
+| summarize arg_min(TimeGenerated, LogMessage, Source, ContainerName, LogSource) by bin(TimeGenerated, 1m)
+| project TimeGenerated, Source
+| summarize count(Source) by Source
+
+
+--- Error Message Line Graph (workflow)
+ContainerLogV2
+ContainerLogV2
+| where PodNamespace == "folex-dev"
+| where ContainerName == "workflow-service"
+| where LogMessage contains "ERROR"
+| where TimeGenerated > ago(1d)
+| project TimeGenerated, ContainerName, LogMessage
+| summarize count(LogMessage) by bin(TimeGenerated, 1m)
+
+
+--- wedding watch error count
+ContainerLogV2
+| where PodNamespace == "folex-dev"
+| where ContainerName == "wedding-watches"
+| where LogSource == "stderr"
+| project TimeGenerated, LogMessage, LogSource, LogLevel
+| summarize count(LogSource) by bin(TimeGenerated, 1m)
+
+--- rabbit connection count (no requests)
+ContainerLogV2
+| where PodNamespace == "folex-dev"
+| where ContainerName == "rabbit"
+| where LogMessage contains "accepting"
+| project TimeGenerated, LogMessage, LogSource, LogLevel
+| summarize count(LogMessage) by bin(TimeGenerated, 1m)
+
+
+--- Factory 
+ContainerLogV2
+| where PodNamespace == "folex-dev"
+| where ContainerName == "factory"
+| where LogMessage contains "SUCCESS" or LogMessage contains "ERROR"
+| project TimeGenerated, LogMessage, LogSource, LogLevel
+| summarize count(LogMessage) by tostring(LogMessage)
