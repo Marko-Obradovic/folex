@@ -26,6 +26,11 @@ spec:
               name: order-service-secret
         resources:
           limits:
-            cpu: 100m
+            cpu: 1000m
           requests:
-            cpu: 50m
+            cpu: 20m
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10

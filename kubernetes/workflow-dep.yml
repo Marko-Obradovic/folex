@@ -20,13 +20,19 @@ spec:
         image: training16.azurecr.io/folex/workflow:latest
         resources:
           requests:
-            cpu: "200m"
+            cpu: "20m"
             memory: "256Mi"
           limits:
-            cpu: "500m"
+            cpu: "700m"
             memory: "512Mi"
         envFrom:
         - secretRef:
             name: workflow-secrets
         ports:
         - containerPort: 8080
+        livenessProbe:
+          tcpSocket: 
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+
