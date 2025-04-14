@@ -14,7 +14,7 @@ resources:
 
 jobs:
 - job: Terraform
-  condition: succeeded()
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   pool:
     name: sigma
 
