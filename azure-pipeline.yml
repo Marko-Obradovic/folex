@@ -117,6 +117,6 @@ jobs:
       inputs:
         command: buildAndPush
         repository: $(ORDER_SERVICE_IMAGE_REPO)
-        dockerfile: ./factory/Dockerfile
+        dockerfile: ./order-service/Dockerfile
         tags: $(Build.BuildId),latest
       displayName: Build & Push Order Service Docker Image
