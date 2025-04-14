@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: workflow-service
-        image: training16.azurecr.io/folex-workflow
+        image: training16.azurecr.io/folex/workflow:latest
         resources:
           requests:
             cpu: "200m"
