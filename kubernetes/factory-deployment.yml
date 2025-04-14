@@ -8,9 +8,8 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels: 
+    matchLabels:
       app: factory
-
   template:
     metadata:
       labels:
@@ -21,6 +20,8 @@ spec:
         image: training16.azurecr.io/folex/factory:latest
         ports:
         - containerPort: 8080
-        envFrom:
-          - secretRef:
-              name: factory-sc
+        resources:
+          limits:
+            cpu: 100m
+          requests:
+            cpu: 20m
