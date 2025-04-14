@@ -26,29 +26,29 @@ resource "azurerm_kubernetes_cluster" "cluster" {
 
 }
 
-resource "azurerm_role_assignment" "node_rg_access_1" {
-  principal_id   = var.object_id_1
-  role_definition_name = "Contributor"
-  scope          = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_kubernetes_cluster.cluster.node_resource_group}"
-}
+# resource "azurerm_role_assignment" "node_rg_access_1" {
+#   principal_id   = var.object_id_1
+#   role_definition_name = "Contributor"
+#   scope          = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_kubernetes_cluster.cluster.node_resource_group}"
+# }
 
-resource "azurerm_role_assignment" "node_rg_access_2" {
-  principal_id   = var.object_id_2
-  role_definition_name = "Contributor"
-  scope          = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_kubernetes_cluster.cluster.node_resource_group}"
-}
+# resource "azurerm_role_assignment" "node_rg_access_2" {
+#   principal_id   = var.object_id_2
+#   role_definition_name = "Contributor"
+#   scope          = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_kubernetes_cluster.cluster.node_resource_group}"
+# }
 
-resource "azurerm_role_assignment" "node_rg_access_3" {
-  principal_id   = var.object_id_3
-  role_definition_name = "Contributor"
-  scope          = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_kubernetes_cluster.cluster.node_resource_group}"
-}
+# resource "azurerm_role_assignment" "node_rg_access_3" {
+#   principal_id   = var.object_id_3
+#   role_definition_name = "Contributor"
+#   scope          = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_kubernetes_cluster.cluster.node_resource_group}"
+# }
 
-resource "azurerm_role_assignment" "node_rg_access_4" {
-  principal_id   = var.object_id_4
-  role_definition_name = "Contributor"
-  scope          = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_kubernetes_cluster.cluster.node_resource_group}"
-}
+# resource "azurerm_role_assignment" "node_rg_access_4" {
+#   principal_id   = var.object_id_4
+#   role_definition_name = "Contributor"
+#   scope          = "/subscriptions/${var.subscription_id}/resourceGroups/${azurerm_kubernetes_cluster.cluster.node_resource_group}"
+# }
 
 resource "azurerm_role_assignment" "aks_acr_pull" {
   scope                = azurerm_container_registry.acr.id
