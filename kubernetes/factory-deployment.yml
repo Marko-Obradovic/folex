@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: factory
+  labels:
+    app: factory
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: factory
+  
+  template:
+    metadata:
+      labels:
+        app: factory
+    spec:
+      containers:
+      - name: factory
+        image: training16.azurecr.io/folex/factory:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 100m
+          requests:
+            cpu: 20m
