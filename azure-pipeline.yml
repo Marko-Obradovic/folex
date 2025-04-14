@@ -89,7 +89,7 @@ jobs:
         command: buildAndPush
         repository: $(WORKFLOW_IMAGE_REPO)
         dockerfile: ./workflow/Dockerfile
-        tags: $(Build.BuildId),latest
+        tags: $(Build.BuildId)
       displayName: Build & Push Workflow Docker Image
 
     - task: Docker@2
@@ -97,7 +97,7 @@ jobs:
         command: buildAndPush
         repository: $(WEDDING_WATCHES_IMAGE_REPO)
         dockerfile: ./wedding-watches/Dockerfile
-        tags: $(Build.BuildId),latest
+        tags: $(Build.BuildId)
       displayName: Build & Push Wedding Watches Docker Image
 
     - task: Docker@2
@@ -105,7 +105,7 @@ jobs:
         command: buildAndPush
         repository: $(FACTORY_IMAGE_REPO)
         dockerfile: ./factory/Dockerfile
-        tags: $(Build.BuildId),latest
+        tags: $(Build.BuildId)
       displayName: Build & Push Factory Docker Image
 
     - task: Docker@2
@@ -113,5 +113,5 @@ jobs:
         command: buildAndPush
         repository: $(ORDER_SERVICE_IMAGE_REPO)
         dockerfile: ./factory/Dockerfile
-        tags: $(Build.BuildId),latest
+        tags: $(Build.BuildId)
       displayName: Build & Push Order Service Docker Image
