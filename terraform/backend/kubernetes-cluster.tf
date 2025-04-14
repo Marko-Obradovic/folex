@@ -24,6 +24,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
     type = "SystemAssigned"
   }
 
+  oidc_issuer_enabled = true
 }
 
 # resource "azurerm_role_assignment" "node_rg_access_1" {
