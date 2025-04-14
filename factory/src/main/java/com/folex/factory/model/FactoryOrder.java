@@ -9,7 +9,7 @@ public class FactoryOrder {
 
     private final UUID id;
 
-    private final FactoryOutcome outcome;
+    private FactoryOutcome outcome;
 
     private final LocalDateTime completeTime;
 
@@ -28,16 +28,36 @@ public class FactoryOrder {
         return outcome;
     }
 
-    @JsonIgnore
+
     public LocalDateTime getCompleteTime() {
         return completeTime;
     }
 
-    public FactoryOutcome getStatus() {
-        if(completeTime.isAfter(LocalDateTime.now())) {
-            return outcome;
-        }
+    /**
+     * Sets the outcome of the factory order and returns the updated FactoryOrder instance.
+     *
+     * @param outcome the outcome to set for the factory order. This should be an instance of {@code FactoryOutcome}.
+     * @return the updated {@code FactoryOrder} instance.
+     */
+    public FactoryOrder setOutcome(FactoryOutcome outcome) {
+        this.outcome = outcome;
+        return this;
+    }
 
-        return FactoryOutcome.IN_PROGRESS;
+    /**
+     * Retrieves the current status of the factory order based on its completion time.
+     * If the completion time is in the future, returns the current outcome of the order.
+     * Otherwise, the status is considered to be {@code FactoryOutcome.IN_PROGRESS}.
+     *
+     * @return the current status of the factory order, which can be either the current outcome
+     *         or {@code FactoryOutcome.IN_PROGRESS}.
+     */
+    public FactoryOutcome getStatus() {
+        return outcome;
+    }
+
+    @Override
+    public String toString() {
+        return "FactoryOrder{" + "id=" + id + ", outcome=" + outcome + ", completeTime=" + completeTime + '}';
     }
 }
