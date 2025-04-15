@@ -79,5 +79,6 @@ jobs:
             -var "subscription_id=$(ARM_SUBSCRIPTION_ID)" \
             -var "resource_group=$(ARM_RESOURCE_GROUP)" \
             -var "database_username=$(database_username)" \
-            -var "database_password=$(database_password)"
+            -var "database_password=$(database_password)" \
+            -var "admin_email=$(admin_email)"
       displayName: Terraform Apply in Dev Workspace
