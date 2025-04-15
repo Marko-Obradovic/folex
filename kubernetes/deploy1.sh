@@ -8,3 +8,4 @@ kubectl apply -f wedding-watches-hpa.yml
 kubectl apply -f workflow-dep.yml
 kubectl apply -f workflow-serv.yml
 kubectl apply -f workflow-hpa.yml
+kubectl apply -f order-service-ingress.yml
