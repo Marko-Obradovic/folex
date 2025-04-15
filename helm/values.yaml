@@ -1,0 +1,8 @@
+factoryImage:
+  tag: "latest"
+orderServiceImage:
+  tag: "latest"
+weddingWatchesImage:
+  tag: "latest"
+workflowImage:
+  tag: "latest"

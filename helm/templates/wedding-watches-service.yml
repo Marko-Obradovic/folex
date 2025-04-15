@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wedding-watch-service
+  namespace: folex-dev
+  labels:
+    app: wedding-watches
+
+spec:
+  selector:
+    app: wedding-watches
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 443
+  - name: listen
+    port: 3000
+    targetPort: 3000
+  type: LoadBalancer

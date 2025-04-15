@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: folex-dev
+  labels:
+    app: order-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+      - name: order-service
+        image: training16.azurecr.io/folex/order-service:{{ .Values.orderServiceImage.tag }}
+        ports:
+        - containerPort: 8080
+        envFrom:
+          - secretRef:
+              name: order-service-secret
+        resources:
+          limits:
+            cpu: 1000m
+          requests:
+            cpu: 20m
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10

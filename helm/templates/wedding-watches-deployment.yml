@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wedding-watches
+  namespace: folex-dev
+  labels:
+    app: wedding-watches
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wedding-watches
+
+  template:
+    metadata:
+      labels:
+        app: wedding-watches
+    spec:
+      containers:
+      - name: wedding-watches
+        image: "training16.azurecr.io/folex/wedding-watches:{{ .Values.weddingWatchesImage.tag }}"
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: wedding-watches-secret
+        resources:
+          limits:
+            cpu: 100m
+          requests:
+            cpu: 10m
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 15
