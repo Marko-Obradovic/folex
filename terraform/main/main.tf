@@ -32,7 +32,19 @@ resource "azurerm_postgresql_flexible_server" "postgres_server" {
   storage_mb   = 32768
   storage_tier = "P4"
 
-  sku_name = "B_Standard_B1ms"
+  sku_name = "B_Standard_B2s"
+}
+
+resource "azurerm_postgresql_flexible_server_configuration" "max_connections" {
+  name      = "max_connections"
+  server_id = azurerm_postgresql_flexible_server.postgres_server.id
+  value     = "400"
+}
+
+resource "azurerm_postgresql_flexible_server_configuration" "idle_timeout" {
+  name      = "idle_in_transaction_session_timeout"
+  server_id = azurerm_postgresql_flexible_server.postgres_server.id
+  value     = "60000"
 }
 
 resource "azurerm_postgresql_flexible_server_database" "order_db" {
