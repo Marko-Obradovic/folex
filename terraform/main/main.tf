@@ -75,3 +75,13 @@ resource "azurerm_role_assignment" "postgres_db_access" {
   role_definition_name = "Contributor"
   scope           = azurerm_postgresql_flexible_server.postgres_server.id
 }
+
+resource "azurerm_api_management" "folex_api_management" {
+  name                = "folex-apim"
+  location            = data.azurerm_resource_group.db_resource_group.location
+  resource_group_name = var.resource_group
+  publisher_name      = "Folex"
+  publisher_email     = var.admin_email
+
+  sku_name = "Developer_1"
+}

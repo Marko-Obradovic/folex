@@ -10,3 +10,7 @@ variable "database_username" {
 variable "database_password" {
   type = string
 }
+
+variable "admin_email" {
+  type = string
+}
