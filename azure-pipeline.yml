@@ -19,7 +19,7 @@ jobs:
     displayName: Run All Tests
     steps:
     - script: |
-        curl -o $(Build.ArtifactStagingDirectory)/jdk-23_linux-x64_bin.tar.gz https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz
+        curl -o $(Build.ArtifactStagingDirectory)/jdk-23_linux-x64_bin.tar.gz https://download.oracle.com/java/23/archive/jdk-23.0.2_linux-x64_bin.tar.gz
       displayName: Download JDK 23
 
     - task: JavaToolInstaller@1
@@ -120,3 +120,38 @@ jobs:
         dockerfile: ./order-service/Dockerfile
         tags: $(Build.BuildId),latest
       displayName: Build & Push Order Service Docker Image
+
+  - job: Deploy_to_AKS
+    displayName: Deploy to AKS
+    condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+    dependsOn: Build_And_Deploy
+
+    steps:
+    - task: KubectlInstaller@0
+      inputs:
+        kubectlVersion: latest
+
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: folex-service-connection
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az aks get-credentials --resource-group $(ARM_RESOURCE_GROUP) --name $(CLUSTER_NAME)
+        displayName: Get AKS Credentials
+
+    - script: |
+        kubectl set image deployment/order-service order-service=$(CONTAINER_REGISTRY).azurecr.io/$(ORDER_SERVICE_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
+      displayName: Update order-service Deployment
+
+    - script: |
+        kubectl set image deployment/factory factory=$(CONTAINER_REGISTRY).azurecr.io/$(FACTORY_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
+      displayName: Update factory Deployment
+
+    - script: |
+        kubectl set image deployment/wedding-watches wedding-watches=$(CONTAINER_REGISTRY).azurecr.io/$(WEDDING_WATCHES_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
+      displayName: Update wedding-watches Deployment
+
+    - script: |
+        kubectl set image deployment/workflow workflow=$(CONTAINER_REGISTRY).azurecr.io/$(WORKFLOW_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
+      displayName: Update workflow Deployment
