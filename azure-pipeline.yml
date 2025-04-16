@@ -157,5 +157,5 @@ jobs:
       displayName: Update wedding-watches Deployment
 
     - script: |
-        kubectl set image deployment/workflow workflow=$(CONTAINER_REGISTRY).azurecr.io/$(WORKFLOW_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
+        kubectl set image deployment/workflow workflow-service=$(CONTAINER_REGISTRY).azurecr.io/$(WORKFLOW_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
       displayName: Update workflow Deployment
