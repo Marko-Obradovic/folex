@@ -127,7 +127,7 @@ jobs:
     dependsOn: Build_And_Deploy
 
     steps:
-    - task: UseKubectl@1
+    - task: KubectlInstaller@0
       inputs:
         kubectlVersion: latest
 
@@ -141,37 +141,17 @@ jobs:
         displayName: Get AKS Credentials
 
     - script: |
-        latest_tag=$(az acr repository show-manifests \
-        --name $(CONTAINER_REGISTRY) \
-        --repository $(ORDER_SERVICE_IMAGE_REPO) \
-        --query "[?tags[?@=='latest']].tags | [0]" \
-        --output tsv)
-        kubectl set image deployment/order-service order-service=$(CONTAINER_REGISTRY).azurecr.io/$(ORDER_SERVICE_IMAGE_REPO):"$latest_tag" --namespace=folex-dev
+        kubectl set image deployment/order-service order-service=$(CONTAINER_REGISTRY).azurecr.io/$(ORDER_SERVICE_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
       displayName: Update order-service Deployment
 
     - script: |
-        latest_tag=$(az acr repository show-manifests \
-        --name $(CONTAINER_REGISTRY) \
-        --repository $(FACTORY_IMAGE_REPO) \
-        --query "[?tags[?@=='latest']].tags | [0]" \
-        --output tsv)
-        kubectl set image deployment/factory factory=$(CONTAINER_REGISTRY).azurecr.io/$(FACTORY_IMAGE_REPO):"$latest_tag" --namespace=folex-dev
+        kubectl set image deployment/factory factory=$(CONTAINER_REGISTRY).azurecr.io/$(FACTORY_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
       displayName: Update factory Deployment
 
     - script: |
-        latest_tag=$(az acr repository show-manifests \
-        --name $(CONTAINER_REGISTRY) \
-        --repository $(WEDDING_WATCHES_IMAGE_REPO) \
-        --query "[?tags[?@=='latest']].tags | [0]" \
-        --output tsv)
-        kubectl set image deployment/wedding-watches wedding-watches=$(CONTAINER_REGISTRY).azurecr.io/$(WEDDING_WATCHES_IMAGE_REPO):"$latest_tag" --namespace=folex-dev
+        kubectl set image deployment/wedding-watches wedding-watches=$(CONTAINER_REGISTRY).azurecr.io/$(WEDDING_WATCHES_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
       displayName: Update wedding-watches Deployment
 
     - script: |
-        latest_tag=$(az acr repository show-manifests \
-        --name $(CONTAINER_REGISTRY) \
-        --repository $(WORKFLOW_IMAGE_REPO) \
-        --query "[?tags[?@=='latest']].tags | [0]" \
-        --output tsv)
-        kubectl set image deployment/workflow workflow=$(CONTAINER_REGISTRY).azurecr.io/$(WORKFLOW_IMAGE_REPO):"$latest_tag" --namespace=folex-dev
+        kubectl set image deployment/workflow workflow=$(CONTAINER_REGISTRY).azurecr.io/$(WORKFLOW_IMAGE_REPO):$(Build.BuildId) --namespace=folex-dev
       displayName: Update workflow Deployment
