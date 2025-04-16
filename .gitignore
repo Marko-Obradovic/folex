@@ -5,3 +5,9 @@ node_modules
 .idea
 *secrets.yml
 .env
+*.key
+*.srl
+*.crt
+*.csr
+*.ext
+*secret.yml
