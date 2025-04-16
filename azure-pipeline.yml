@@ -19,7 +19,7 @@ jobs:
     displayName: Run All Tests
     steps:
     - script: |
-        curl -o $(Build.ArtifactStagingDirectory)/jdk-23_linux-x64_bin.tar.gz https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.tar.gz
+        curl -o $(Build.ArtifactStagingDirectory)/jdk-23_linux-x64_bin.tar.gz https://download.oracle.com/java/23/archive/jdk-23.0.2_linux-x64_bin.tar.gz
       displayName: Download JDK 23
 
     - task: JavaToolInstaller@1
