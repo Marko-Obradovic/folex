@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: watch-order
+  labels:
+    apps: watch-order
+
+spec:
+  selector:
+    matchLabels:
+      apps: watch-order
+  replicas: 1
+
+  template:
+    metadata:
+      labels:
+        apps: watch-order
+    
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        volumeMounts:
+        - name: ca-pemstore
+          mountPath: /watch-order.crt
+          subPath: watch-order.crt
+        - name: key-store
+          mountPath: /watch-order.key
+          subPath: watch-order.key
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: nginx.conf
+      volumes:
+      - name: ca-pemstore
+        configMap:
+          name: ca-pemstore
+      - name: key-store
+        configMap:
+          name: key-store
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+
