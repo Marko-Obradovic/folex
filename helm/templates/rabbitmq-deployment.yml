@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rabbit
-  namespace: folex-dev
+  namespace: folex-dev-test
   labels:
     app: rabbit
 spec:

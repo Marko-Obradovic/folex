@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wedding-watches
-  namespace: folex-dev
+  namespace: folex-dev-test
   labels:
     app: wedding-watches
 

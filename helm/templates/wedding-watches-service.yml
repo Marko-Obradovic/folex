@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wedding-watch-service
-  namespace: folex-dev
+  namespace: folex-dev-test
   labels:
-    app: wedding-watches
+    app: wedding-watches-test
 
 spec:
   selector:
